@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     public float maxHealth;
     float health;
     float redTimer = 0f;
+    public int bullets = 10;
     MeshRenderer rend;
 
 
@@ -55,8 +56,9 @@ public class Player : MonoBehaviour
 
 
         bulletTimer -= Time.deltaTime;
-        if(currentMouse.leftButton.isPressed && bulletTimer <= 0)
+        if(currentMouse.leftButton.isPressed && bulletTimer <= 0 && bullets > 0)
         {
+            bullets -= 1;
             bulletTimer = bulletInterval;
             Transform bullet = Instantiate(bulletPrefab, transform.position + transform.forward * 0.7f, Camera.main.transform.rotation);
         }
@@ -87,6 +89,14 @@ public class Player : MonoBehaviour
         {
             health -= 0.1f;
             redTimer = 0.2f;
+        }
+    }
+    void OnCollisionEnter(Collision col)
+    {
+        if(col.gameObject.tag == "Ammunition")
+        {
+            bullets += col.gameObject.GetComponent<AmmunitionBox>().bulletsContained;
+            Destroy(col.gameObject);
         }
     }
 }
