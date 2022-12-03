@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     public Transform feet;
     public Transform bulletPrefab;
     public Slider healthBar;
+    public Slider ammoBar;
+    public TMPro.TextMeshProUGUI ammoText;
     public float bulletInterval;
     float bulletTimer = 0f;
     public float maxHealth;
@@ -75,6 +77,19 @@ public class Player : MonoBehaviour
         }
 
         
+        if(bullets > 100){
+            bullets = 100;
+        }
+        if (bullets == 0)
+        {
+            ammoText.text = "Out of Ammo";
+        }
+        else
+        {
+            ammoText.text = bullets.ToString() + " Bullets";
+        }
+        ammoBar.value = bullets / 100f;
+
         healthBar.value = health / maxHealth;
         if(health <= 0)
         {
