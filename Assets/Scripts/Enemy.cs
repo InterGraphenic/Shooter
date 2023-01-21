@@ -25,8 +25,10 @@ public class Enemy : MonoBehaviour
             v.Normalize();
             if(Vector3.Dot(v, transform.forward) >= 0.707f)
             {
-                patrol = false;
-                target = player.transform.position;
+                if(!Physics.Linecast(transform.position, player.transform.position, LayerMask.GetMask("Wall"))){
+                    patrol = false;
+                    target = player.transform.position;
+                }           
             }
         }  
         if(patrol)
@@ -58,15 +60,15 @@ public class Enemy : MonoBehaviour
         if(other.gameObject.tag == "Bullet")
         {
             health -= 10f;
-            StartCoroutine(Flash());
+            Flash();
         }
     }
 
-    IEnumerator Flash()
+    void Flash()
     {
-        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
-        meshRenderer.material.color = Color.red;
-        yield return new WaitForSeconds(0.2f);
-        meshRenderer.material.color = Color.white;
+        foreach(Flash flash in GetComponentsInChildren<Flash>())
+        {
+            flash.StartFlash();
+        }
     }
 }

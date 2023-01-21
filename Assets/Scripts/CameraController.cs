@@ -10,7 +10,7 @@ public class CameraController : MonoBehaviour
     public float maxdistance = 5f;
     public float yRotation = 0f;
     // Start is called before the first frame update
-    void Start()
+    void Start()    
     {
         
     }
@@ -22,7 +22,7 @@ public class CameraController : MonoBehaviour
         yRotation += Mouse.current.delta.ReadValue().y * Time.deltaTime * -30f;
         yRotation = Mathf.Clamp(yRotation, -87f, 87f);
         transform.rotation = target.rotation;
-        transform.Rotate(Vector3.right, yRotation);
+        transform.Rotate(Vector3.right, yRotation); 
         RaycastHit hit;
         float distance = maxdistance;
         if (Physics.Raycast(target.position + offset, transform.forward * -distance, out hit, maxdistance))
